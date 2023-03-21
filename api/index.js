@@ -2,8 +2,12 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+import { Router } from "express";
 
 const app = express();
+
+const route = Router();
+
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -18,13 +22,13 @@ let db = [
 
 
 //Buscar Dados
-app.get('/', (req, res) => {
+route.get('/', (req, res) => {
     return res.json(db)
 });
 
 
 //Inserir Dados
-app.post('/add', (req, res) => {
+route.post('/add', (req, res) => {
     const body = req.body;
 
     if(!body) {
@@ -34,6 +38,7 @@ app.post('/add', (req, res) => {
     return res.json(body);
 });
 
+app.use(route);
 
 app.listen(3000, () => {
     console.log('Servidor Startado em http://localhost:3000')
